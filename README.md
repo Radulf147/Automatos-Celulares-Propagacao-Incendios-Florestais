@@ -12,7 +12,7 @@ Um modelo computacional de **Autômato Celular Estocástico com Espaço de Estad
 
 Este projeto modela a propagação do fogo utilizando matrizes bidimensionais e Autômatos Celulares. Diferente de abordagens determinísticas simples, esta simulação aplica **Modelos de Combustível** (baseados na literatura de engenharia florestal, como Rothermel e Anderson) para calcular a ignição através de probabilidade de eventos independentes.
 
-O objetivo é evitar anomalias clássicas de simulações em grid (como a super-saturação isotrópica ou "efeito parede sólida") garantindo que o fogo apresente um comportamento orgânico, com frentes de calor irregulares, engasgos e áreas de sobrevivência vegetal.
+Para fins de análise acadêmica e demonstração matemática, o repositório conta com **duas versões do algoritmo** (`super-saturada.py` e `heterogeneo.py`), que evidenciam como o balanceamento de hiperparâmetros estocásticos altera drasticamente o comportamento da simulação.
 
 ## ⚙️ Como Funciona (A Matemática)
 
@@ -30,25 +30,33 @@ $$P_{ignicao} = 1 - (1 - P_{base})^{V_{fogo}}$$
 
 Onde $V_{fogo}$ é o número de células adjacentes ativamente em chamas.
 
-## 🌲 Modelos de Combustível Implementados
+---
 
-O projeto utiliza um dicionário balanceado de propriedades físicas para garantir uma dissipação realista em tempo real (15 FPS).
+## ⚖️ Os Dois Modelos (O Paradoxo Estocástico)
 
-| Vegetação | Inflamabilidade ($P_{base}$) | Tempo de Queima | Comportamento na Simulação |
-| :--- | :--- | :--- | :--- |
-| **Grama Seca** | 25% | 3 iterações | Queima rápida, propaga fogo com facilidade formando frentes abertas. |
-| **Arbusto Seco** | 15% | 4 iterações | Propagação mediana, serve como ponte térmica. |
-| **Folha Úmida** | 5% | 5 iterações | Alta resistência inicial, atua quase como um corta-fogo natural. |
-| **Madeira Seca** | 10% | 7 iterações | Demora a inflamar, mas atua como âncora de calor duradoura. |
-| **Árvore Úmida** | 2% | 10 iterações | Queima lenta e densa. |
+O projeto contém dois executáveis principais que diferem exclusivamente no dicionário de `PROPRIEDADES_MATERIAIS`, demonstrando na prática o desafio do balanceamento probabilístico em tempo real (15 FPS).
+
+### 1. `super-saturada.py` (O "Efeito Papel Higiênico")
+Utiliza probabilidades base muito elevadas e um tempo de residência curto, gerando a anomalia visual da super-saturação isotrópica.
+* **Grama Seca:** $P_{base} = 0.80$ | Duração: 1 tick
+* **Comportamento:** O cálculo estocástico se aproxima rapidamente de 100% com o suporte de apenas 1 vizinho ativo. Visualmente, a frente de onda avança como uma parede sólida e contínua, consumindo todo o material de forma linear (semelhante à queima de uma folha de papel higiênico), sem apresentar as falhas naturais de um incêndio.
+
+### 2. `heterogeneo.py` (Propagação Orgânica e Realista)
+Ajusta punitivamente as probabilidades base para compensar a alta taxa de quadros, aumentando o tempo de queima para atuar como âncora térmica.
+* **Grama Seca:** $P_{base} = 0.25$ | Duração: 3 ticks
+* **Comportamento:** O fogo sofre "engasgos" matemáticos intencionais. A chama contorna certas células, deixa ilhas de vegetação verde intactas e forma frentes de ataque irregulares (cabeças e flancos), aproximando o Autômato Celular ao rigor físico de uma queimada florestal real.
+
+---
 
 ## 🗺️ Level Design Estático
 
-A matriz inicial ($300 \times 300$) é gerada proceduralmente através de *slicing* no NumPy, simulando o mapeamento de uma imagem de satélite dividida em 4 quadrantes principais:
-* **Nordeste:** Zona Urbana (Prédios, galpões e estruturas estáticas não-inflamáveis).
+A matriz inicial ($300 \times 300$) de ambos os scripts é gerada proceduralmente através de *slicing* no NumPy, simulando o mapeamento de uma imagem de satélite dividida em 4 quadrantes principais por estradas não-inflamáveis:
+* **Nordeste:** Zona Urbana (Prédios, galpões e estruturas estáticas em cinza).
 * **Noroeste:** Pasto Aberto (Grama seca com moitas isoladas de arbustos).
 * **Sudeste:** Bosque Misto (Ilhas detalhadas de vegetação variada).
 * **Sudoeste:** Floresta Densa (Miolo espesso de árvores úmidas, folhagens e troncos).
+
+---
 
 ## 🚀 Como Executar Localmente
 
