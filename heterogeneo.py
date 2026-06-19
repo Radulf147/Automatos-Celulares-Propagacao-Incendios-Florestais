@@ -4,14 +4,14 @@ import random
 
 # --- DEFINIÇÃO DE PROPRIEDADES DOS MATERIAIS ---
 PROPRIEDADES_MATERIAIS = {
-    0: {"nome": "Grama Seca",   "prob_base": 0.25, "tempo_queima": 3, "cor": (154, 205, 50)},
-    1: {"nome": "Arbusto Seco", "prob_base": 0.15, "tempo_queima": 4, "cor": (218, 165, 32)},
-    2: {"nome": "Folha Umida",  "prob_base": 0.05, "tempo_queima": 5, "cor": (85, 107, 47)},
-    3: {"nome": "Madeira Seca", "prob_base": 0.10, "tempo_queima": 7, "cor": (139, 69, 19)},
-    4: {"nome": "Arvore Umida", "prob_base": 0.02, "tempo_queima": 10, "cor": (34, 139, 34)},
-    5: {"nome": "Obstaculo",    "prob_base": 0.00, "tempo_queima": 0, "cor": (128, 128, 128)},
-    -1: {"nome": "Fogo",        "prob_base": 0.00, "tempo_queima": 0, "cor": (255, 69,  0)},
-    -2: {"nome": "Queimado",    "prob_base": 0.00, "tempo_queima": 0, "cor": (50,  50,  50)}
+    0: {"nome": "Grama Seca",   "prob_base": 0.25, "tempo_queima": 3, "cor": (154, 205, 50)}, # Verde Claro
+    1: {"nome": "Arbusto Seco", "prob_base": 0.15, "tempo_queima": 4, "cor": (218, 165, 32)}, # Dourado
+    2: {"nome": "Folha Umida",  "prob_base": 0.05, "tempo_queima": 5, "cor": (85, 107, 47)}, # Verde Oliva Escuro
+    3: {"nome": "Madeira Seca", "prob_base": 0.10, "tempo_queima": 7, "cor": (139, 69, 19)}, # Marrom
+    4: {"nome": "Arvore Umida", "prob_base": 0.02, "tempo_queima": 10, "cor": (34, 139, 34)}, # Verde Musgo Floresta
+    5: {"nome": "Obstaculo",    "prob_base": 0.00, "tempo_queima": 0, "cor": (128, 128, 128)}, # Cinza
+    -1: {"nome": "Fogo",        "prob_base": 0.00, "tempo_queima": 0, "cor": (255, 69,  0)}, # Vermelho Alaranjado
+    -2: {"nome": "Queimado",    "prob_base": 0.00, "tempo_queima": 0, "cor": (50,  50,  50)} # Preto
 }
 
 def obter_cor(estado, fogo_restante):
